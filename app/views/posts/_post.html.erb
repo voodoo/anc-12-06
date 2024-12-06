@@ -1,0 +1,24 @@
+<%= turbo_frame_tag dom_id(post) do %>
+  <article class="bg-white shadow rounded-lg p-6 mb-4">
+    <div class="flex items-start space-x-4">
+      <div class="flex-shrink-0">
+        <%= render "posts/vote_buttons", post: post %>
+      </div>
+
+      <div class="flex-1 min-w-0">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-bold text-gray-900 hover:text-indigo-600">
+            <%= link_to post.title, post_path(post), data: { turbo: false } %>
+          </h2>
+          <p class="text-sm text-gray-500">
+            Posted by <%= post.user.email_address %> • 
+            <%= time_ago_in_words(post.created_at) %> ago
+          </p>
+        </div>
+        <div class="prose prose-indigo max-w-none">
+          <p class="text-gray-700"><%= post.content %></p>
+        </div>
+      </div>
+    </div>
+  </article>
+<% end %> 

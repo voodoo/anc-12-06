@@ -1,0 +1,18 @@
+<%= turbo_stream.replace "#{dom_id(@post)}_votes" do %>
+  <div id="<%= dom_id(@post) %>_votes" class="flex flex-col items-center space-y-1">
+    <div class="text-red-500">
+      <svg class="w-6 h-6 scale-150" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M10 18l-1.45-1.32C3.53 12.24 0 9.24 0 5.5 0 2.42 2.42 0 5.5 0c1.74 0 3.41.81 4.5 2.09C11.09.81 12.76 0 14.5 0 17.58 0 20 2.42 20 5.5c0 3.74-3.53 6.74-8.55 11.18L10 18z"/>
+      </svg>
+    </div>
+    <span class="text-sm font-medium text-gray-900">
+      <%= @post.votes.count %>
+    </span>
+  </div>
+<% end %>
+
+<%= turbo_stream.update "flash" do %>
+  <div class="flash notice">
+    Vote recorded!
+  </div>
+<% end %> 

@@ -1,0 +1,61 @@
+<%= turbo_frame_tag "#{dom_id(post)}_votes" do %>
+  <div class="flex flex-col items-center">
+    <div class="bg-white rounded-full p-3 shadow-sm border border-gray-200">
+      <div class="flex flex-col items-center space-y-1">
+        <% if Current.user %>
+          <% if Current.user.votes.exists?(post: post) %>
+            <div class="text-red-500">
+              <svg class="w-6 h-6 animate-vote" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 18l-1.45-1.32C3.53 12.24 0 9.24 0 5.5 0 2.42 2.42 0 5.5 0c1.74 0 3.41.81 4.5 2.09C11.09.81 12.76 0 14.5 0 17.58 0 20 2.42 20 5.5c0 3.74-3.53 6.74-8.55 11.18L10 18z"/>
+              </svg>
+            </div>
+          <% else %>
+            <%= button_to post_votes_path(post), 
+                method: :post,
+                class: "text-gray-400 hover:text-red-500 transition-all duration-200" do %>
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 18l-1.45-1.32C3.53 12.24 0 9.24 0 5.5 0 2.42 2.42 0 5.5 0c1.74 0 3.41.81 4.5 2.09C11.09.81 12.76 0 14.5 0 17.58 0 20 2.42 20 5.5c0 3.74-3.53 6.74-8.55 11.18L10 18z"/>
+              </svg>
+            <% end %>
+          <% end %>
+        <% else %>
+          <%= link_to sign_in_path,
+              class: "text-gray-400 hover:text-red-500 transition-all duration-200",
+              data: { turbo_frame: "_top" } do %>
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 18l-1.45-1.32C3.53 12.24 0 9.24 0 5.5 0 2.42 2.42 0 5.5 0c1.74 0 3.41.81 4.5 2.09C11.09.81 12.76 0 14.5 0 17.58 0 20 2.42 20 5.5c0 3.74-3.53 6.74-8.55 11.18L10 18z"/>
+            </svg>
+          <% end %>
+        <% end %>
+        <span class="text-lg font-bold text-gray-900">
+          <%= post.votes.count %>
+        </span>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<style>
+  @keyframes vote {
+    0% {
+      transform: scale(1);
+    }
+    25% {
+      transform: scale(1.5);
+    }
+    50% {
+      transform: scale(0.8);
+    }
+    75% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .animate-vote {
+    animation: vote 0.8s cubic-bezier(0.4, 0, 0.6, 1);
+    transform-origin: center;
+  }
+</style>

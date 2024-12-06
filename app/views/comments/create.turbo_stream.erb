@@ -1,0 +1,13 @@
+<%= turbo_stream.prepend "#{dom_id(@post)}_comments" do %>
+  <%= render @comment %>
+<% end %>
+
+<%= turbo_stream.update "#{dom_id(@post)}_comment_count" do %>
+  Comments (<%= @post.comments.count %>)
+<% end %>
+
+<%= turbo_stream.update "flash" do %>
+  <div class="flash notice">
+    Comment added successfully!
+  </div>
+<% end %> 

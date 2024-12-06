@@ -1,0 +1,11 @@
+<div class="mt-8 space-y-6">
+  <h2 id="<%= dom_id(post) %>_comment_count" class="text-lg font-medium text-gray-900">
+    Comments (<%= post.comments.count %>)
+  </h2>
+  
+  <%= render "comments/form", post: post %>
+
+  <div id="<%= dom_id(post) %>_comments" class="mt-6 space-y-6">
+    <%= render post.comments %>
+  </div>
+</div> 
