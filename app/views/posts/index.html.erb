@@ -1,18 +1,5 @@
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <div class="text-center mb-8">
-    <h1 class="text-4xl font-bold text-gray-900 mb-4">Ancient History Chronicles</h1>
-    <p class="text-xl text-gray-600 mb-6">Discover fascinating stories from the ancient world</p>
-    <% if Current.user %>
-      <%= link_to "Share Your Historical Knowledge", new_post_path, 
-          class: "inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
-    <% else %>
-      <p class="text-gray-600 mb-4">Sign in to share your own historical insights and vote on posts</p>
-    <% end %>
-  </div>
-
-  <%= turbo_frame_tag "posts" do %>
     <div class="space-y-6">
       <%= render @posts %>
     </div>
-  <% end %>
 </div>
