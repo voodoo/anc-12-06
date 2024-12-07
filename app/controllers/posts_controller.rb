@@ -3,6 +3,7 @@ class PostsController < ApplicationController
 
   def index
     @posts = Post.ranked.includes(:user)
+    @posts = @posts.where(region: params[:region]) if params[:region].present?
   end
 
   def show
@@ -31,6 +32,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :content)
+    params.require(:post).permit(:title, :content, :region)
   end
 end

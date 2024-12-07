@@ -3,6 +3,8 @@ class CreatePosts < ActiveRecord::Migration[8.0]
     create_table :posts do |t|
       t.string :title
       t.text :content
+      t.string :region
+      t.string :url
       t.references :user, null: false, foreign_key: true
 
       t.timestamps

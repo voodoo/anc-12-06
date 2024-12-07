@@ -1,24 +1,41 @@
-<%= turbo_frame_tag dom_id(post) do %>
-  <article class="bg-white shadow rounded-lg p-6 mb-4">
-    <div class="flex items-start space-x-4">
-      <div class="flex-shrink-0">
-        <%= render "posts/vote_buttons", post: post %>
-      </div>
-
-      <div class="flex-1 min-w-0">
-        <div class="flex justify-between items-center mb-4">
-          <h2 class="text-xl font-bold text-gray-900 hover:text-indigo-600">
-            <%= link_to post.title, post_path(post), data: { turbo: false } %>
-          </h2>
-          <p class="text-sm text-gray-500">
-            Posted by <%= post.user.email_address %> • 
-            <%= time_ago_in_words(post.created_at) %> ago
-          </p>
-        </div>
-        <div class="prose prose-indigo max-w-none">
-          <p class="text-gray-700"><%= post.content %></p>
-        </div>
-      </div>
+<article class="bg-white shadow rounded-lg p-6">
+  <div class="flex items-start space-x-4">
+    <div class="flex-shrink-0">
+      <%= render "vote_buttons", post: post %>
     </div>
-  </article>
-<% end %> 
+
+    <div class="flex-1 min-w-0">
+      <div class="flex justify-between items-center mb-4">
+        <h1 class="text-3xl font-bold text-gray-900">
+        <% unless current_page?(post_path(post)) %>
+          <%= link_to post.title, post_path(post), data: { turbo: false } %>
+        <% else %>
+          <%= post.title %>
+        <% end %>
+        </h1>
+        <div class="flex flex-col space-x-2">
+          <%= link_to posts_path(region: post.region), 
+              class: "group inline-flex items-center gap-x-1.5 rounded-md px-3 py-1.5 text-sm font-medium ring-1 ring-inset transition-all duration-150 ease-in-out hover:shadow-md #{region_color_classes(post.region)}" do %>
+            <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+            <%= post.region %>
+          <% end %>
+        </div>
+        
+      </div>
+      <div class="prose prose-indigo max-w-none">
+        <%= simple_format post.content, class: "text-gray-700" %>
+
+        <% if current_page?(post_path(post)) %>
+          <%= link_to post.url, post.url, class: "text-indigo-600 hover:text-indigo-500 bg-indigo-100 p-2 rounded-md" %>
+        <% end %>
+
+      </div>
+      <p class="text-sm text-gray-500 mt-2">
+        Posted by <%= post.user.email_address %> • 
+        <%= time_ago_in_words(post.created_at) %> ago
+      </p>          
+    </div>
+  </div>
+</article> 

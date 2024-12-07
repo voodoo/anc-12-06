@@ -1,5 +1,32 @@
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="space-y-6">
-      <%= render @posts %>
+  <% if params[:region].present? %>
+    <div class="mb-6 bg-white shadow-sm rounded-lg p-4 border border-gray-100">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-x-2">
+          <div class="p-2 rounded-full <%= region_color_classes(params[:region]) %>">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-sm text-gray-500">Region</p>
+            <h2 class="text-lg font-medium text-gray-900">
+              <%= params[:region] %>
+            </h2>
+          </div>
+        </div>
+        <%= link_to posts_path, 
+            class: "inline-flex items-center gap-x-1.5 rounded-md px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" do %>
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+          Clear filter
+        <% end %>
+      </div>
     </div>
+  <% end %>
+  
+  <div class="space-y-6">
+    <%= render @posts %>
+  </div>
 </div>

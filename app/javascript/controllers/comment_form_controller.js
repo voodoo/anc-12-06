@@ -1,13 +1,22 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["form", "input"]
+  static targets = ["form", "input", "submit"]
+
+  connect() {
+    this.validateInput()
+  }
 
   submitOnEnter(event) {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault()
       this.submit(event)
     }
+  }
+
+  validateInput() {
+    const content = this.inputTarget.value.trim()
+    this.submitTarget.disabled = content === ""
   }
 
   submit(event) {
@@ -20,5 +29,6 @@ export default class extends Controller {
   reset() {
     this.inputTarget.value = ""
     this.inputTarget.style.height = 'auto'
+    this.validateInput()
   }
 } 

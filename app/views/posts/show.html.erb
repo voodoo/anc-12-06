@@ -1,34 +1,15 @@
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <div class="flex justify-between items-center mb-4">
-  <%= link_to "← Back to Posts", posts_path, class: "text-indigo-600 hover:text-indigo-500 mb-6 inline-block" %>
+    <%= link_to "← Back to Posts", posts_path, class: "text-indigo-600 hover:text-indigo-500 mb-6 inline-block" %>
     <%= link_to "Map", map_path, class: "text-indigo-600 hover:text-indigo-500", data: { turbo_frame: "_top" } %>
   </div>
 
   <%= turbo_frame_tag dom_id(@post) do %>
-    <article class="bg-white shadow rounded-lg p-6">
-      <div class="flex items-start space-x-4">
-        <div class="flex-shrink-0">
-          <%= render "vote_buttons", post: @post %>
-        </div>
+    <%= render "post", post: @post %>
 
-        <div class="flex-1 min-w-0">
-          <div class="flex justify-between items-center mb-4">
-            <h1 class="text-3xl font-bold text-gray-900"><%= @post.title %></h1>
-            <p class="text-sm text-gray-500">
-              Posted by <%= @post.user.email_address %> • 
-              <%= time_ago_in_words(@post.created_at) %> ago
-            </p>
-          </div>
-          <div class="prose prose-indigo max-w-none">
-            <%= simple_format @post.content, class: "text-gray-700" %>
-          </div>
-        </div>
-      </div>
-
-      <div class="pt-6 border-t border-gray-200">
-        <div id="flash" class="p-4 text-green-500"></div>
-        <%= render "comments/list", post: @post %>
-      </div>
-    </article>
+    <div class="pt-6 border-t border-gray-200">
+      <div id="flash" class="p-4 text-green-500"></div>
+      <%= render "comments/list", post: @post %>
+    </div>
   <% end %>
 </div>
