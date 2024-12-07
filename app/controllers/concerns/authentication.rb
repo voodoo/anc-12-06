@@ -14,22 +14,30 @@ module Authentication
 
   private
     def authenticated?
-      resume_session
+      resume_session.present?
     end
 
     def require_authentication
-      resume_session || request_authentication
+      unless authenticated?
+        store_location
+        redirect_to new_session_path, alert: "Please sign in to continue"
+        return false
+      end
+      true
     end
-
 
     def resume_session
       Current.session ||= find_session_by_cookie
     end
 
     def find_session_by_cookie
+      return nil unless cookies.signed[:session_id]
       Session.find_by(id: cookies.signed[:session_id])
     end
 
+    def store_location
+      session[:return_to_after_authenticating] = request.url if request.get?
+    end
 
     def request_authentication
       session[:return_to_after_authenticating] = request.url
@@ -39,7 +47,6 @@ module Authentication
     def after_authentication_url
       session.delete(:return_to_after_authenticating) || root_url
     end
-
 
     def start_new_session_for(user)
       user.sessions.create!(user_agent: request.user_agent, ip_address: request.remote_ip).tap do |session|

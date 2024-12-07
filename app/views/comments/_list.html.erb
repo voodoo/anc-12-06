@@ -1,11 +1,15 @@
-<div class="mt-8 space-y-6">
-  <h2 id="<%= dom_id(post) %>_comment_count" class="text-lg font-medium text-gray-900">
+<div class="mt-8">
+  <h2 id="<%= dom_id(post) %>_comment_count" class="text-lg font-medium text-gray-900 mb-6">
     Comments (<%= post.comments.count %>)
   </h2>
   
   <%= render "comments/form", post: post %>
 
-  <div id="<%= dom_id(post) %>_comments" class="mt-6 space-y-6">
-    <%= render post.comments %>
+  <div id="<%= dom_id(post) %>_comments" class="mt-8 space-y-6">
+    <% post.comments.includes(:user).each do |comment| %>
+      <div class="border-b border-gray-200 last:border-b-0">
+        <%= render comment %>
+      </div>
+    <% end %>
   </div>
 </div> 

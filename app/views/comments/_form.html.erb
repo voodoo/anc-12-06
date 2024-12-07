@@ -1,19 +1,29 @@
 <% if Current.user %>
-  <%= form_with(model: [post, Comment.new],
-      class: "mt-4",
-      data: { controller: "reset-form", action: "turbo:submit-end->reset-form#reset" }) do |f| %>
-    <div class="space-y-3">
-      <%= f.text_area :content,
-          rows: 3,
-          class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
-          placeholder: "Add a comment..." %>
-      
-      <div class="flex justify-start">
-        <%= f.submit "Comment",
-            class: "inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" %>
+  <div data-controller="comment-form">
+    <%= form_with(model: [post, Comment.new],
+        class: "mt-4",
+        data: { 
+          comment_form_target: "form",
+          action: "turbo:submit-end->comment-form#reset"
+        }) do |f| %>
+      <div class="space-y-3">
+        <%= f.text_area :content,
+            rows: 3,
+            class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm",
+            placeholder: "Add a comment...",
+            data: { 
+              comment_form_target: "input",
+              action: "keydown.enter->comment-form#submitOnEnter"
+            } %>
+        
+        <div class="flex justify-start">
+          <%= f.submit "Comment",
+              class: "inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2",
+              data: { action: "click->comment-form#submit" } %>
+        </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 <% else %>
   <div class="mt-4 rounded-md bg-gray-50 p-4">
     <div class="flex">
@@ -24,7 +34,7 @@
       </div>
       <div class="ml-3">
         <p class="text-sm text-gray-700">
-          Please <%= link_to "sign in", sign_in_path, class: "font-medium text-indigo-600 hover:text-indigo-500" %> to leave a comment.
+          Please <%= link_to "sign in", sign_in_path, class: "font-medium text-indigo-600 hover:text-indigo-500", data: { turbo_frame: "_top" } %> to leave a comment.
         </p>
       </div>
     </div>
